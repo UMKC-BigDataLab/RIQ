@@ -1,0 +1,26 @@
+# union,distinct
+PREFIX dbpp: <http://dbpedia.org/property/>
+
+#FROM <http://dbpedia.org>
+SELECT DISTINCT ?var
+WHERE {
+    GRAPH ?g {
+        { ?var dbpp:writer ?var1 . }
+        UNION
+        { ?var dbpp:executiveProducer ?var1 . }
+        UNION
+        { ?var dbpp:creator ?var1 . }
+        UNION
+        { ?var dbpp:starring ?var1 . }
+        UNION
+        { ?var dbpp:executiveProducer ?var1 . }
+        UNION
+        { ?var dbpp:guest ?var1 . }
+        UNION
+        { ?var dbpp:director ?var1 . }
+        UNION
+        { ?var dbpp:producer ?var1 . }
+        UNION
+        { ?var dbpp:series ?var1 . }
+    }
+} LIMIT 1000

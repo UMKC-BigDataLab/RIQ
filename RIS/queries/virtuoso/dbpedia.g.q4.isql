@@ -1,0 +1,1 @@
+sparql SELECT ?var5 ?var6 ?var8 ?var9 ?var4 WHERE { GRAPH ?g { { <http://my.opera.com/Green%20Aya/xml/foaf#me> ?var5 ?var6 .  ?var6 <http://xmlns.com/foaf/0.1/name> ?var8 .  } UNION { ?var9 ?var5 <http://my.opera.com/Green%20Aya/xml/foaf#me> .  ?var9 <http://xmlns.com/foaf/0.1/name> ?var4 .  } } } ;

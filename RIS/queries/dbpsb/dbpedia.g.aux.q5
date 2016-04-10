@@ -1,0 +1,25 @@
+# union,distinct
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbpp: <http://dbpedia.org/property/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+#FROM <http://dbpedia.org>
+SELECT DISTINCT ?var0 ?var1
+WHERE {
+    GRAPH ?g {
+        {
+            ?var3 dbpp:series ?var1 .
+            ?var3 foaf:name ?var4 .
+            ?var3 rdfs:comment ?var5 .
+            ?var3 rdf:type ?var0 .
+        } UNION {
+            ?var3 dbpp:series ?var8 .
+            ?var8 dbpp:redirect ?var1 .
+            ?var3 foaf:name ?var4 .
+            ?var3 rdfs:comment ?var5 .
+            ?var3 rdf:type ?var0 .
+        }
+    }
+} LIMIT 1000

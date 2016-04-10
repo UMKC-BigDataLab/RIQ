@@ -1,0 +1,24 @@
+Command terminated by signal 11
+	Command being timed: "/home/anask/RIS/indexing/RIS/bin/riq -D riqindex -E /home/anask/RIS/indexing/RIS.RUN/index/riqdbenv -b 32768 -d /home/anask/RIS/indexing/RIS.RUN/index -I -P /home/anask/RIS/indexing/RIS.RUN/data/btc-2012-split-clean.sigv2.DAT -m 200000000 -L -k 4 -l 6 -i 2525701133 -H /home/anask/RIS/indexing/RIS.RUN/index/hash.dat -C 25000 -N 2500 -U 100000000 -S spo,sp,so,s,o"
+	User time (seconds): 24.68
+	System time (seconds): 1.86
+	Percent of CPU this job got: 47%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:55.41
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 432844
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 218190
+	Voluntary context switches: 769
+	Involuntary context switches: 38
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 2536304
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

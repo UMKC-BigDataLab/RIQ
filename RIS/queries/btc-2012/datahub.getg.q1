@@ -1,0 +1,6 @@
+SELECT ?s ?p ?o ?g
+WHERE {
+  GRAPH <http://semanticweb.cs.vu.nl/europeana/lod/purl/collections/nl/am/proxy-23182> {
+    ?s ?p ?o .
+  }
+}

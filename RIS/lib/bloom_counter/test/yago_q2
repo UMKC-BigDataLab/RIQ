@@ -1,0 +1,6 @@
+? y:isCalled ? .
+? rdf:type <http://www.mpii.de/yago/resource/wordnet_actor_109765278> .
+? y:livesIn ? .
+? y:actedIn ? .
+? y:directed ? .
+? y:isLocatedIn ? .

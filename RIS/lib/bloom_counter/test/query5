@@ -1,0 +1,6 @@
+( ? , y:isLocatedIn , ? )
+( ? , ? , "Athelhampton" )
+( <Tlapehuala_(municipality)> , rdf:type , <wordnet_geographical_area_108574314> )
+( <geoent_West_Dorset_District_7290684> , y:isLocatedIn , "Beer\u005fHackett" )
+( <geoent_West_Dorset_District_7290684> , ? , "Nether\u005fCompton" )
+( ? , y:hasNumberOfWikipediaLinks , <yagoLegalActor> )

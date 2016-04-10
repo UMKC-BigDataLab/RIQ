@@ -1,0 +1,9 @@
+# Unconstrained query for artworks, artists, museums and their directors
+
+PREFIX p: <http://dbpedia.org/property/>
+SELECT ?artist ?artwork ?museum ?director
+WHERE {
+  ?artwork p:artist ?artist .
+  ?artwork p:museum ?museum .
+  ?museum p:director ?director
+}

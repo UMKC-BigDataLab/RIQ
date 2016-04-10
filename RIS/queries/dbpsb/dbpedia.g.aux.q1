@@ -1,0 +1,10 @@
+# distinct
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+#FROM <http://dbpedia.org>
+SELECT DISTINCT ?var
+WHERE {
+    GRAPH ?g {
+        ?var rdf:type ?var1 .
+    }
+} LIMIT 1000

@@ -1,0 +1,3 @@
+?p y:hasGivenName ?gn .
+?p y:hasFamilyName ?fn .
+?p rdf:type <http://www.mpii.de/yago/resource/wordnet_scientist_110560637> .

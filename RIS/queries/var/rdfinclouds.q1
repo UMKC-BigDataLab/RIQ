@@ -1,0 +1,9 @@
+SELECT ?y ?z
+WHERE {
+    # star-join
+    ?x :type :artist .
+    ?x :paints ?y .
+    # path/chain
+    ?y :exhibited ?z .
+    ?z :located :paris .
+}￼￼

@@ -1,0 +1,43 @@
+PREFIX dbpedia: <http://dbpedia.org/resource/>
+PREFIX dbp-owl: <http://dbpedia.org/ontology/>
+PREFIX dbp-prop: <http://dbpedia.org/property/>
+PREFIX dbp-yago: <http://dbpedia.org/class/yago/>
+PREFIX dbp-cat: <http://dbpedia.org/resource/Category/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX georss: <http://www.georss.org/georss/>
+
+#SELECT DISTINCT ?var WHERE {
+#SELECT * WHERE {
+SELECT ?var2 ?var5 ?var6 ?g
+WHERE {
+GRAPH ?g {
+#    {
+#        ?var2 a <http://dbpedia.org/ontology/Settlement> .
+#        ?var2 rdfs:label ?var .
+#        ?var6 a <http://dbpedia.org/ontology/Airport> .
+#    }
+
+    {
+        ?var6 <http://dbpedia.org/ontology/city> ?var2 .
+    } UNION {
+        ?var6 <http://dbpedia.org/ontology/location> ?var2 .
+    }
+
+#    {
+#        ?var6 <http://dbpedia.org/property/iata> ?var5 .
+#    } UNION {
+#        ?var6 <http://dbpedia.org/ontology/iataLocationIdentifier> ?var5.
+#    }
+
+    OPTIONAL { ?var6 foaf:homepage ?var6_home . }
+    OPTIONAL { ?var6 <http://dbpedia.org/property/nativename> ?var6_name . }
+
+    }
+}
+#} LIMIT 1000
+

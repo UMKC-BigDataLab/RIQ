@@ -1,0 +1,29 @@
+PREFIX resource: <http://dbpedia.org/resource/>
+PREFIX property: <http://dbpedia.org/property/>
+PREFIX ontology: <http://dbpedia.org/ontology/>
+
+SELECT *
+#SELECT ?city ?area ?code ?zone ?abstract ?postal ?water ?popu ?country ?lang ?city2 ?g
+#SELECT ?city ?country1 ?lang ?g
+WHERE {
+  GRAPH ?g {
+    { ?city ontology:areaLand ?area .
+      ?city ontology:areaCode ?code . }
+    UNION
+    { ?city ontology:timeZone ?zone .
+      ?city ontology:abstract ?abstract . }
+    ?city ontology:country ?country .
+    #?country1 ontology:governmentType ?gType1 .
+    #?country2 ontology:governmentType ?gType2 .
+    #?country1 property:languages ?lang .
+    ?city property:languages ?lang .
+    ?city2 property:languages ?lang .
+    #?country1 ontology:languages "English"@en .
+    #?country2 ontology:languages "English"@en .
+    #?city ontology:country resource:United_States .
+    #resource:United_States ?p ?o .
+    ?city ontology:postalCode ?postal .
+    OPTIONAL { ?city ontology:areaWater ?water . }
+    OPTIONAL { ?city ontology:populationTotal ?popu . }
+  }
+}

@@ -1,0 +1,28 @@
+# union,distinct
+PREFIX dbpp: <http://dbpedia.org/property/>
+
+#FROM <http://dbpedia.org>
+#SELECT DISTINCT ?var
+SELECT *
+WHERE {
+    GRAPH ?g {
+        { <http://dbpedia.org/resource/Axis_of_Justice:_Concert_Series_Volume_1> dbpp:writer ?var1 . }
+        UNION
+        { <http://dbpedia.org/resource/Axis_of_Justice:_Concert_Series_Volume_1> dbpp:executiveProducer ?var1 . }
+        UNION
+        { <http://dbpedia.org/resource/Axis_of_Justice:_Concert_Series_Volume_1> dbpp:creator ?var1 . }
+        UNION
+        { <http://dbpedia.org/resource/Axis_of_Justice:_Concert_Series_Volume_1> dbpp:starring ?var1 . }
+        UNION
+        { <http://dbpedia.org/resource/Axis_of_Justice:_Concert_Series_Volume_1> dbpp:executiveProducer ?var1 . }
+        UNION
+        { <http://dbpedia.org/resource/Axis_of_Justice:_Concert_Series_Volume_1> dbpp:guest ?var1 . }
+        UNION
+        { <http://dbpedia.org/resource/Axis_of_Justice:_Concert_Series_Volume_1> dbpp:director ?var1 . }
+        UNION
+        { <http://dbpedia.org/resource/Axis_of_Justice:_Concert_Series_Volume_1> dbpp:producer ?var1 . }
+        UNION
+        { <http://dbpedia.org/resource/Axis_of_Justice:_Concert_Series_Volume_1> dbpp:series ?var1 . }
+    }
+}
+#} LIMIT 1000
