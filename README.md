@@ -17,12 +17,9 @@ processor (e.g., Jena TDB) to produce the final results.
 
 * Anas Katib, Vasil Slavov, Praveen Rao. ``[RIQ: Fast Processing of SPARQL Queries on RDF Quadruples](http://dx.doi.org/10.1016/j.websem.2016.03.005)." In the Journal of Web Semantics (JWS), Elsevier, 2016. (in press)
 
-* Vasil Slavov, Anas Katib, Praveen Rao, Srivenu Paturi, Dinesh
-Barenkala. ``[Fast Processing of SPARQL Queries on RDF Quadruples](http://arxiv.org/pdf/1506.01333v1.pdf)."
-[*Proceedings of the 17th International Workshop on the Web and
-Databases*](http://webdb2014.eecs.umich.edu/) (**WebDB 2014**),
-Snowbird, UT, June 2014.
+* Vasil Slavov, Anas Katib, Praveen Rao, Vinutha Nuchimaniyanda. "Fast Processing of SPARQL Queries on RDF Quadruples." The 8th IEEE Symposium on Computational Intelligence for Security and Defense Applications (CISDA 2015), Verona, NY, May 2015. (poster)
 
+* Vasil Slavov, Anas Katib, Praveen Rao, Srivenu Paturi, Dinesh Barenkala. ``[Fast Processing of SPARQL Queries on RDF Quadruples](http://arxiv.org/pdf/1506.01333v1.pdf)." [*Proceedings of the 17th International Workshop on the Web and Databases*](http://webdb2014.eecs.umich.edu/) (**WebDB 2014**), Snowbird, UT, June 2014.
 
 ## Acknowledgments
 
