@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content_title %}
+	<title>{{ TITLE }}</title>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+		{% load static %}
+		<script src="../static/js/jquery.elevatezoom.js" type="text/javascript"></script>
+		<script src="../static/js/visualize-scripts.js" type="text/javascript"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<style>
+
+	.node circle {
+		 stroke-width: 1.5px;
+	 }
+
+
+
+	.node {
+		 font: 12px sans-serif;
+
+	 }
+
+
+	 .link {
+		 fill: none;
+		 stroke: orange;
+		 stroke-width: 1.5px;
+	 }
+</style>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+	<div style="display:-webkit-flex;  display: flex; flex-flow: row;">
+	<div id="leftUnit" class="col-md-2">
+			<div class="row">
+				<div class="col-md-12" style="color:#3BBEC0; border-color:#3BBEC0;border: 2px solid; height:235px;">
+					<p class="text-center" style="font-size: 110%;font-weight: 800; padding-top:10px;">
+							Query Information
+					</p>
+				<div id="info" style="height:130px; margin-top:10px;">
+					<table style="width:100%;margin-top:20px;">
+					  <tr>
+						<td style="padding-left:22px">Query:</td>
+						<td id='qName' style="color:#000"></td>
+					  </tr>
+					  <tr>
+						<td style="padding-left:25px">Index:</td>
+						<td id='qIndex' style="color:#000"></td>
+					  </tr>
+					  <tr>
+						<td style="padding-left:20px">Cache:</td>
+						<td id='qCache' style="color:#000"></td>
+					  </tr>
+					  <tr>
+						<td>Rewriting:</td>
+						<td id='qOpt' style="color:#000"></td>
+					  </tr>
+					</table>
+				</div>
+				<input type="Button" class="btn btn-primary vis-btn" alt="graphData" style="width:100%;" value="VIEW" onclick="runAntlr()"></input>
+				</div>
+			</div>
+			<div class="row">
+			<div id="exp" class="col-md-12" style="color:#3BBEC0; border-color:#3BBEC0;border: 2px solid; height:315px; margin-top:5px">
+				<p class="text-center" style="font-size: 110%;font-weight: 800; padding-top:10px;">
+						Candidates
+				</p>
+			<div style="display:inline-block; vertical-align:top; overflow:hidden; border-top:solid #3BBEC0 1px;border-bottom:solid #3BBEC0 1px;">
+				<select id="cands" style="padding:10px; margin:-5px -20px -5px -5px; height:250px; width:182px;" size="15" onchange="getCandidateTree(this)">
+				</select>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-9" style="margin-left:5px;">
+
+		<div class="row">
+
+			<div class='halves' style="width:41%;height:285px;">
+				<div class="sliding-content-rv">
+						<div class="text-center" style="font-size: 110%;font-weight: 800; ">
+							Query
+							<div id="query" class="text-left" style="color:#000;font-weight: normal;font-size: 10px;color:#000"></div>
+						</div>
+				</div>
+			</div>
+			<div class='halves' style="margin-left:5px;width:58.3%;	height:285px;">
+				<div class="sliding-content-lv">
+					<div class="text-center" style="font-size: 110%;font-weight: 800; padding-top:10px;">
+							Query Parse Tree
+							<div style="font-size:10px">Scroll if tree is not visible</div>
+							<div id="parseQueryTree" style="width:1800px"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row" style="margin-top:5px;">
+			<div class='halves' style="width:41%;height:265px">
+				<div class="sliding-content-rv">
+						<div class="text-center" style="font-size: 110%;font-weight: 800; ">
+							Optimized Query
+							<div id="candquery" class="text-left" style="color:#000;font-weight: normal;font-size: 10px;color:#000"></div>
+						</div>
+				</div>
+			</div>
+			<div class='halves' style="margin-left:5px;width:58.3%;height:265px;">
+				<div class="sliding-content-lv">
+					<div class="text-center" style="font-size: 110%;font-weight: 800; padding-top:10px;">
+						Optimized Query Parse Tree
+						<div style="font-size:10px">Scroll if tree is not visible</div>
+						<div id="parseCandTree" style="width:1800px"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endblock %}

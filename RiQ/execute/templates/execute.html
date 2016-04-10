@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block content_title %}
+	<title>{{ TITLE }}</title>
+
+{% endblock %}
+
+
+
+
+{% block scripts %}
+{% load static %}
+	<link href="{% static 'css/execute-graph.css' %}" rel="stylesheet">
+	<script type='text/javascript' src='http://d3js.org/d3.v3.min.js'></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="../static/js/highcharts.js" type="text/javascript"></script>
+	<script src="../static/js/execute-graph.js" type="text/javascript"></script>
+	<script src="../static/js/execute-scripts.js" type="text/javascript"></script>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+
+	<div style="display:-webkit-flex;  display: flex; flex-flow: row;">
+	<div id="config" style="color:#DCB543; border-color:#DCB543; 	border: 2px solid;padding:25px;width:200px;">
+		<p class="text-center" style="font-size: 110%;font-weight: 800;">
+			Configuration
+		</p>
+		<form id="frmRIQ" name="frmRIQ" action="" method="POST" >
+			{% csrf_token %}
+			{% if form.dataset.errors %}
+			<div style="color:red;">
+				<p class="error">{{form.dataset.errors}}</p>
+			</div>
+			{% endif %}
+			<div class="row"  style="margin-bottom:10px;">
+					<div class="form-group">
+					<label for = "dataset">Index:</label>
+					<div class="col-sm-12">
+						<select id="indexname" NAME="indexname"class="form-control execute">
+							{% for value, text in form.dataset.field.choices %}
+								<option value="{{ value}}">{{ text}}</option>
+							{% endfor %}
+						</select>
+						<div id = "datasetBTC" style="color:red;display:none">The total numbers of graphs available is 10</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="row"  style="margin-bottom:20px;">
+				<div class="form-group">
+					<label for = "queries">Query:</label>
+					<div class="col-sm-12">
+						<select id="queryDisplay"  NAME="queries"class="form-control execute" onchange="showQuery(this);">
+							{% for value, text in form.query.field.choices %}
+								<option value="{{ value}}">{{ text}}</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="row"  style="margin-bottom:10px;">
+				<div class="form-group">
+					<label for = "cache">Cache Setting:</label>
+					<div class="col-sm-12">
+
+							{% for value, text in form.cache.field.choices %}
+							<input id="typecache" type="radio"  name="typecache" value="{{ value}}"><label for="typecache" style="color:#000;font-weight:400;"><span><span></span></span>{{ text }}</label><br />
+
+							{% endfor %}
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row"  style="margin-bottom:10px;">
+				<div class="form-group">
+					<label for = "optimizationtype">Query Rewriting:</label>
+					<div class="col-sm-12">
+							{% for value, text in form.optimize.field.choices %}
+							<input id="optimizationtype" type="radio"  name="optimizationtype" value="{{ value}}"><label for="optimizationtype" style="color:#000;font-weight:400;"><span><span></span></span>{{ text }}</label><br />
+
+							{% endfor %}
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row" >
+				<div class="form-group">
+					<div class="col-sm-12">
+						<button id="runquery" type="button" class="btn btn-primary execute-btn" alt="submitData" style="width:100%;" onClick="runRIQ(event);" value="Run RIQ">SUBMIT</button>
+					</div>
+				</div>
+			</div>
+			<textarea id='query-text' name='qtext' cols="40" rows="5" style="display:none"></textarea>
+
+			<div class="row" style="margin-top:5px; padding:0;" >
+					<div class="col-sm-12" style="color:#DCB543;margin-top:15px; font-size:12px;">
+					<div style="font-weight:bold">Note</div>
+					The query will be executed using the configuration set in the index construction page.
+					</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-9" style="margin-left:5px;">
+		<div class="row">
+			<div style="color:#DCB543; height:420px;">
+				<div style="float: left; width: 277px;border: 2px solid #DCB543; height:100%;">
+
+					<div class="sliding-content-r">
+						<div class="text-center widen" style="font-size: 110%;font-weight: 800; padding-top:10px;">
+							Query
+							<div id="query" class="text-left" contenteditable="true" spellcheck='false' style=" font-weight: normal;font-size:10px;color:#000"> </div>
+						</div>
+					</div>
+
+				</div>
+				<div style="float: left; width: 277px;border: 2px solid #DCB543; height:100%; margin-left:5px;">
+
+					<div class="sliding-content-lr">
+						<div class="text-center widen" style="font-size: 110%;font-weight: 800; padding-top:10px;">
+							Triple Patterns in the Query
+							<div id="query-graph" class="text-left">  </div>
+						</div>
+					</div>
+
+				</div>
+				<div style="float: left; width: 277px;border: 2px solid #DCB543; height:100%; margin-left:5px;">
+					<div style="padding-top:15px;">
+						<div class="text-center widen" style="font-size: 110%;font-weight: 800; padding-top:10px;">
+							Time Comparison <div style="font-size: 12px;">(seconds)</div>
+							<div id="time" class="text-left">  </div>
+							<div id="note" class="text-center" style="font-weight: 300;font-size:10px;">  </div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+		<div class="row" style="position: relative;">
+			<div style="padding:0;">
+				<div style="color:#DCB543; border-color:#DCB543;border: 2px solid; height:130px; position:relative;float:left; display: block;width:841px; margin-top:5px;">
+					<div class="sliding-content-t">
+						<div class="text-center widen" style="font-size: 110%;font-weight: 800; padding-top:10px;">
+							Results
+							<div id="results" class="text-left" style="white-space: pre-wrap;font-weight: normal;color:#000;font-size:10px;"  contenteditable="true" spellcheck='false' s> </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	//init form
+	document.getElementById("indexname").selectedIndex = -1;
+	document.getElementById("optimizationtype").selectedIndex = -1;
+	document.getElementById("queryDisplay").selectedIndex = -1;
+	document.getElementById("query-text").value="";
+	$('input:radio').each(function () { $(this).prop('checked', false); });
+</script>
+{% endblock %}

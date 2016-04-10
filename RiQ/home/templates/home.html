@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+
+
+{% endblock %}
+
+
+
+{% block content_title %}
+
+<title>{{ TITLE }}</title>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Welcome Jumbobox
+=================================-->
+<div class="jumbo-box text-center" style="margin-top:58px;">
+          <h1>A Tool for Fast Processing of SPARQL Queries on RDF Quadruples</h1>
+</div>
+<!--End Jumbotron
+=================================-->
+
+
+<!-- Website Navigation
+=================================-->
+
+
+<!-- Grid Menu -->
+<div class="grid-box"><a style="outline: medium none;" hidefocus="true" href="/index" class="boxed boxed-red"><strong><i class="icon-grid icon-grid-1"></i></strong><h1>Index<br />Construction</h1></a></div>
+<div class="grid-box"><a style="outline: medium none;" hidefocus="true" href="/execute" class="boxed boxed-yellow"><strong><i class="icon-grid icon-grid-2"></i></strong><h1>Execute<br />SPARQL Query</h1></a></div>
+<div class="grid-box"><a style="outline: medium none;" hidefocus="true" href="/visualize" class="boxed boxed-turquoise"><strong><i class="icon-grid icon-grid-4"></i></strong><h1>Visualize<br />Query</h1></a></div>
+<div class="grid-box"><a style="outline: medium none;" hidefocus="true" href="/linked" class="boxed boxed-green"><strong><i class="icon-grid icon-grid-3"></i></strong><h1>Linked<br />Data Query</h1></a></div>
+
+<!--/ Grid Menu -->
+<!--
+=================================-->
+{% endblock %}
+

@@ -1,0 +1,28 @@
+.link {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+
+circle {
+  fill: yellow;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+text {
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+.link-label {
+font-family: sans-serif;
+font-size: 11px;
+}
+
+path.link {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
