@@ -25,4 +25,4 @@ processor (e.g., Jena TDB) to produce the final results.
 
 ## Acknowledgments
 
-This work was supported by the National Science Foundation under Grant No. 1115871.
+This work was supported by the National Science Foundation under Grant Nos. 1115871 and 1620023.
