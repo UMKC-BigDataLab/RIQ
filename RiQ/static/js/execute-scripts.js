@@ -1,18 +1,72 @@
 function plotTimings(data){
 
 	var cache = data['type'];
+	cache = cache.charAt(0).toUpperCase() + cache.slice(1);
 	var riq_t = data['riq'];
 	var riq_tf = data['riqf'];
-	var virt_t = data['virt'];
-	var jena_t = data['jena'];
+	var riq = Number(riq_t) + Number (riq_tf)
+	var virt_t = Number(data['virt']).toFixed(1);
+	var jena_t = Number(data['jena']).toFixed(1);
+	var rf_t = Number(data['rf']).toFixed(1);
+	riqT  = {
+            name: 'RIQ',
+            data: [Number(riq.toFixed(1))],
+            color: '#0101DF',
+            stack:0
+        };
+	/*riqfT =  {
+            name: 'RIQ (filtering)',
+            data: [Number(riq_tf)],
+	    color: '#01A9DB',
+            stack:0
+        };*/
+	virtT =  {
+            name: 'Virtuoso',
+            data: [Number(virt_t)],
+            color:'red',
+			stack:2
+
+        };
+	jenaT = {
+            name: 'JenaTDB',
+            data: [Number(jena_t)],
+			color: 'green',
+            stack:1
+        };
+
+	rfT ={
+            name: 'RF',
+            data: [Number(rf_t)],
+            color:'#EB9100',
+	    stack:3
+
+        };
+	serData = [riqT];
+        if (Number(virt_t) > 0){
+		serData.push(virtT);
+	} 
+	if (Number(jena_t) > 0){
+		serData.push(jenaT);
+	} 
+	serData.push(rfT);	
+	
+	var i = 0;
+	while (i<serData.length){
+		if(serData[i].data==0)
+			serData.splice(i,1);
+		else
+			i++;
+	}
+	
 
     $('#time').highcharts({
         chart: {
 			type: 'column',
 			margin: 0,
-			marginLeft: 8,
+			marginLeft: 65,
+			marginRight: 40,
 			height: 300,
-			width: 265,
+			width: 300,
 			borderWidth:0,
 			marginTop: 60,
 			marginBottom: 80,
@@ -22,11 +76,13 @@ function plotTimings(data){
 
         },
         title: {
-            text: cache+' cache',
-			style: {
+            text: cache+" Cache <br> RIQ's Filtering Time: "+data["riqf"]+"s",
+	    style: {
 						fontSize: "14px",
 						color:"#000"
-					},
+	    },
+	    align: 'center',
+	    x:-14,
         },
         xAxis: {
 			min:0,
@@ -40,12 +96,20 @@ function plotTimings(data){
 
         },
         yAxis: {
-			gridLineWidth:0,
+  		title: {
+                	text: 'Time (seconds)'
+           	 },
+		type: 'logarithmic',
+            	//minorTickInterval: 0.1,
+		/*
+		gridLineWidth:0,
 			min:0,
-			max:100,
+			max:15500,
+		
             labels: {
-				enabled: false
+				enabled: true
             }
+*/
         },
         tooltip: {
             valueSuffix: ' seconds',
@@ -63,24 +127,26 @@ function plotTimings(data){
         plotOptions: {
 
             series: {
-                pointWidth: 45,
+                pointWidth: 30,
                 stacking: 'normal'
 
             },
-            column:
-            	{
-				stacking: 'normal',
-				slicedOffset: 0,
-                dataLabels: {
-					verticalAlign: 'top',
+            column:{
+			stacking: 'normal',
+			//slicedOffset: 0,
+                	dataLabels: {
+					verticalAlign: 'center',
 					enabled: true,
+                     			y: -20,
+					allowOverlap: true,
 					style: {
-						fontWeight:'normal',
+						fontWeight:'bold',
+						color: "#000000",
 						textShadow:'none',
-					},
+			    		},
 
 
-                }
+                	}
             }
         },
         legend: {
@@ -97,28 +163,7 @@ function plotTimings(data){
         credits: {
             enabled: false
         },
-        series: [{
-            name: 'RIQ',
-            data: [Number(riq_t)],
-            color: '#0101DF',
-            stack:0
-        }, {
-            name: 'RIQ (filtering)',
-            data: [Number(riq_tf)],
-			color: '#01A9DB',
-            stack:0
-        }, {
-            name: 'Virtuoso',
-            data: [Number(virt_t)],
-            color:'red',
-			stack:2
-
-        },{
-            name: 'JenaTDB',
-            data: [Number(jena_t)],
-			color: 'green',
-            stack:1
-        }]
+        series: serData
     });
 
 
@@ -141,11 +186,12 @@ function getQueryTimimgs(args)
 
                 var e = document.getElementById("queryDisplay");
                 var qId = e.options[e.selectedIndex].value;
+                //document.getElementById('filter_time').innerHTML="RIQ's Filtering Time: "+data['riqf']+'s';
+
                 if(qId != 'CUSTOM'){
-                        document.getElementById('note').innerHTML="Note: displaying previously run <br />timings for JenaTDB and Virtuoso. Small timings may not appear on chart.";
+                        document.getElementById('note').innerHTML="Note: displaying previously run <br />timings for RIQ's competitors.";
 		 }
-		 else
-                        document.getElementById('note').innerHTML="Small timings may not appear on chart.";
+		 
 
 		}});
 
@@ -212,7 +258,10 @@ function getQueryResults(args)
 	success: function(data){
 
                         var rframe = document.getElementById('results');
-                        rframe.innerHTML= data.replace(/</gim,'&lt;').replace(/>/gim,'&gt;');
+			//xml = data.replace(/</gim,'&lt;').replace(/>/gim,'&gt;');
+			var xmlDoc = parseXML(data);
+                        rframe.innerHTML= ConvertToTable(xmlDoc);
+			xmlDoc = null;
 		}});
 
 
@@ -220,6 +269,7 @@ function getQueryResults(args)
 
 function showQuery(e)
 {
+
 	var d= "name=" + e.value;
 	var obj = $('#query').unbind();
 
@@ -233,8 +283,7 @@ function showQuery(e)
 		obj.html(obj.html().replace(/\n/g,'&nbsp;<br/>'));
 		obj.html(obj.html().replace(/\t/g,'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'));
 		obj.bind('DOMNodeInserted DOMSubtreeModified DOMNodeRemoved', function(event) {
-		document.getElementById("queryDisplay").selectedIndex = 2;
-
+		document.getElementById("queryDisplay").selectedIndex = 19;
 		});
 	}
 	});
@@ -245,6 +294,7 @@ function displayLoaders(show){
         var time = document.getElementById('time');
         var results = document.getElementById('results');
 	var note = document.getElementById('note');
+	var filter_time = document.getElementById('filter_time');
 
 if(show){
 	var ldrImgResults = "<img src='/static/images/ajax-loader-yellow.gif' style='display: block;margin: auto; margin-top:5px;'/>";
@@ -255,24 +305,27 @@ if(show){
 	time.innerHTML=ldrImg2;
 	graph.innerHTML=ldrImg1;
         note.innerHTML="";
-
+	filter_time.innerHTML="";
 }
 else{
         results.innerHTML='';
         time.innerHTML='';
         graph.innerHTML='';
         note.innerHTML='';
+	filter_time.innerHTML="";
 
 }
 }
 
-function getStatusUpdates(qId,cache,opt){
+function getStatusUpdates(index,qId,cache,opt){
 
 		var isDone='false';
-		var args = '?queryId='+qId+'&cache='+cache+'&opt='+opt;
+		var args = '?queryId='+qId+'&cache='+cache+'&opt='+opt+'&index='+index;
+		var known = false;
 
-		if (qId=='BTC10' ||qId=='BTC11') {
-
+		if (qId=='BTC10' ||qId=='BTC11'||qId=='LUBM1'|| qId=='LUBM2'|| qId=='LUBM3') {
+			
+		
 					getQueryResults(args);
 					getQueryTimimgs(args);
 					getQueryGraph(args);
@@ -291,6 +344,7 @@ function getStatusUpdates(qId,cache,opt){
 					getQueryResults(args);
 					getQueryTimimgs(args);
 					getQueryGraph(args);
+					setTimeout(function(){ alertReveal(); }, 3000);
 				}
 				else
 					alert('Query Execution Error');
@@ -307,7 +361,6 @@ function runRIQ(e)
 	displayLoaders(true);
 
 	document.getElementById("query-text").value= $('#query').html().replace(/<br\s*[\/]?>|&nbsp;/gi,' ').replace(/&lt;/gi,' <').replace(/&gt;/gi,'> ');
-
 	var form = document.getElementById("frmRIQ");
 	var formURL = form.action;
 	var postData = $('#frmRIQ').serialize();
@@ -322,6 +375,9 @@ function runRIQ(e)
 		console.log("Execute Form Submitted Successfully");
 
 		console.log(textStatus.responseText);
+		//get index name
+		var ndx = document.getElementById("indexname");
+		ndx = ndx.options[ndx.selectedIndex].value;
 
 		//get query id
 		var e = document.getElementById("queryDisplay");
@@ -347,7 +403,7 @@ function runRIQ(e)
 		}
 
 
-		getStatusUpdates(qId,cache,opt);
+		getStatusUpdates(ndx,qId,cache,opt);
 
 	},
 	error: function(response,n, textStatus, exception) {
@@ -360,6 +416,14 @@ function runRIQ(e)
 	}
 	});
 
+}
 
+function alertReveal()
+{/*
+	Disable for video
+                document.getElementById("notify_title").innerHTML='Querying Details';
+                document.getElementById("notify_content").innerHTML="You can navigate to Visualize Query to see more interesting data about the execution";
+		document.getElementById('myModalLink').click();
 
+*/
 }

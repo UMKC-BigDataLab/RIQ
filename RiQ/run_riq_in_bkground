@@ -1,0 +1,5 @@
+screen -S RIQ_SESSION -d -m  python manage.py runserver 134.193.129.27:8000 > out.txt 2> log.txt &
+
+screen -ls
+
+screen -r RIQ_SESSION

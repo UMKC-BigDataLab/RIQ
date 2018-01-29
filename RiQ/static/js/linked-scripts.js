@@ -1,9 +1,42 @@
 function plotTimings(data){
 
-	
-	var riq_t = data['riq'];
-	var virt_t = data['virt'];
-	var jena_t = data['jena'];
+	var riq_t  = ( data['riq']  == -1 ? 0 : data['riq']);
+	var virt_t = ( data['virt'] == -1 ? 0 : data['virt']);
+	var jena_t = ( data['jena'] == -1 ? 0 : data['jena']);
+
+
+        riqT  = {
+            name: 'RIQ',
+            data: [Number(riq_t)],
+            color: '#0101DF',
+            stack:0
+        };
+        virtT =  {
+            name: 'Virtuoso',
+            data: [Number(virt_t)],
+            color:'red',
+                        stack:2
+
+        };
+        jenaT = {
+            name: 'JenaTDB',
+            data: [Number(jena_t)],
+                        color: 'green',
+            stack:1
+        };
+
+        serData = [riqT,virtT,jenaT];
+        var i = 0;
+        while (i<serData.length){
+                if(serData[i].data==0)
+                        serData.splice(i,1);
+                else
+                        i++;
+        }
+
+
+
+
     $('#time').highcharts({
         chart: {
 			type: 'column',
@@ -40,7 +73,7 @@ function plotTimings(data){
         yAxis: {
 			gridLineWidth:0,
 			min:0,
-			max:100,
+			max:300,
             labels: {
 				enabled: false
             }
@@ -71,11 +104,14 @@ function plotTimings(data){
 				slicedOffset: 0,
                 dataLabels: {
 					enabled: true,
-					style: {
-						fontWeight:'normal',
-						textShadow:'none',
-					},
-                			color: '#FFFFFF',
+
+                                        style: {
+                                                fontWeight:'bold',
+                                                color: "#000000",
+                                                textShadow:'none',
+                                        },
+					y:-20,
+                			color: '#000000',
                 			align: 'center',
 					verticalAlign:'top',
                 			format: '{point.y:.1f}', // one decimal
@@ -98,24 +134,8 @@ function plotTimings(data){
         credits: {
             enabled: false
         },
-        series: [{
-            name: 'RIQ',
-            data: [Number(riq_t)],
-            color: '#0101DF',
-            stack:0
-        },{
-            name: 'Virtuoso',
-            data: [Number(virt_t)],
-            color:'red',
-			stack:2
-
-        },{
-            name: 'JenaTDB',
-            data: [Number(jena_t)],
-			color: 'green',
-            stack:1
-        }]
-    });
+        series:serData 
+  });
 }
 
 
@@ -170,8 +190,8 @@ function getQueryTimimgs(qId)
 	},
 	success: function(data) {
 		plotTimings(data);
-		if(qId != 'CUSTOM' && qId != 'F3')
-                        document.getElementById('note').innerHTML="Note: displaying previously run <br />timings for JenaTDB and Virtuoso.";
+		if(qId != 'CUSTOM')
+                        document.getElementById('note').innerHTML="Note: displaying previously run <br />timings for RIQ's competitors.";
 		else
                         document.getElementById('note').innerHTML="Note: Time spent by selected tool(s) <br />at the endpoint";
 
@@ -196,8 +216,11 @@ function getQueryResults(qId)
  	},
  	success: function(data) {
 
- 		 rframe = $('#results');
- 		rframe.html(data);
+                        var rframe = document.getElementById('results');
+                        var xmlDoc = parseXML(data);
+                        rframe.innerHTML= ConvertToTable(xmlDoc);
+                        xmlDoc = null;
+
  		}});
 
 
@@ -235,6 +258,10 @@ function runRIQ(e)
 		qId = e.options[e.selectedIndex].value;
 	
 	document.getElementById("query-text").value= $('#query').html().replace(/<br\s*[\/]?>|&nbsp;/gi,' ').replace(/&lt;/gi,' <').replace(/&gt;/gi,'> ');
+
+        var format = document.getElementById("outputformat");
+        format.options[3].selected = true;
+        //alert(format);
 
 	var form = document.getElementById("frmRIQ");
 	var formURL = form.action;

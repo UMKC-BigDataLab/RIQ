@@ -1,6 +1,7 @@
 function getCandidateTree(s) {
 
 	var cqTree = document.getElementById('parseCandTree');
+        var cname = document.getElementById("candname")
 	//display loader img
 	cqTree.innerHTML = '<img id="candquerytree" src="/static/images/ajax-loader-blue.gif" style = "display: block;margin: auto; margin-top:80px;"/>'
 	var opt = document.getElementById('qOpt').innerHTML;
@@ -14,12 +15,16 @@ function getCandidateTree(s) {
                         	alert('Error: ' + response.responseText);
                         	console.log(n);
                         	console.log(textStatus);
+				cqTree.innerHTML='';
+			 	cname.innerHTML='';
+
 
                 	},
                 	success: function(data) {
-                        	
+                         	cqTree.innerHTML="";	
                         	var x = document.getElementById("cands").selectedIndex;
-                        	cqTree.innerHTML='CANDIDATE '+x;
+                        	cname.innerHTML='CANDIDATE '+x;
+				
 				renderD3JsonGraph('#parseCandTree',JSON.parse(data));
 			
 
@@ -40,6 +45,7 @@ function getCandidateTree(s) {
 			console.log(n);
 			console.log(textStatus);
 			 cqTree.innerHTML='';
+			 cname.innerHTML='';
 
 		},
 		success: function(data) {
@@ -54,7 +60,7 @@ function getCandidateTree(s) {
 
 			cqTree.innerHTML='';
   			var x = document.getElementById("cands").selectedIndex;
-                      	cqTree.innerHTML='CANDIDATE '+x+' <br/>';
+                      	cname.innerHTML='CANDIDATE '+x+' <br/>';
 		        //show cand query parse tree
 	      $.ajax({
         	      url: "/visualize/parse/?cand="+s.value,
@@ -66,7 +72,8 @@ function getCandidateTree(s) {
                       console.log(textStatus);
         	      },
              		 success: function(data) {
-                      renderD3JsonGraph('#parseCandTree',JSON.parse(data));
+				//alert(data);
+                      		renderD3JsonGraph('#parseCandTree',JSON.parse(data));
  		             }
 		      });}
 		});
@@ -170,6 +177,7 @@ function getQueryInfo() {
 			document.getElementById('qIndex').innerHTML = data['index'];
 			document.getElementById('qCache').innerHTML = data['cache'];
 			document.getElementById('qOpt').innerHTML = data['opt'];
+			document.getElementById('qNNG').innerHTML = data['namedgraphs'];
 		}
 	});
 }
@@ -186,8 +194,8 @@ $(document).ready(function() {
 function renderD3JsonGraph(container, data)
 {
 var margin = {top: 40, right: 10, bottom: 10, left: 10},
-                   width = 800,
-                   height = 950;
+                   width = 1400,
+                   height = 1400;
 
                    var i = 0,
                    duration = 750,
