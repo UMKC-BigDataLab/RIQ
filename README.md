@@ -23,6 +23,14 @@ processor (e.g., Jena TDB) to produce the final results.
 
 * Vasil Slavov, Anas Katib, Praveen Rao, Srivenu Paturi, Dinesh Barenkala. ``[Fast Processing of SPARQL Queries on RDF Quadruples](http://arxiv.org/pdf/1506.01333v1.pdf)." [*Proceedings of the 17th International Workshop on the Web and Databases*](http://webdb2014.eecs.umich.edu/) (**WebDB 2014**), Snowbird, UT, June 2014.
 
+## Contributors
+
+***Faculty:*** Praveen Rao (PI)
+
+***PhD Students:*** Vasil Slavov, Anas Katib
+
+***MS Students:*** Srivenu Paturi, Dinesh Barenkala, Vinutha Nuchimaniyanda
+
 ## Acknowledgments
 
 This work was supported by the National Science Foundation under Grant Nos. 1115871 and 1620023.
